@@ -47,7 +47,7 @@ public class Heap {
      Running time = O(n)
      */
     private void doubleHeap() {
-        HeapElt[] aux = new HeapElt[2 * this.array.length];
+        HeapElt[] aux = new HeapElt[this.array.length * 2];
 
         for (int i = 0; i < this.array.length; i++) {
             aux[i] = this.array[i];

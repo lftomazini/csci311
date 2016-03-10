@@ -16,8 +16,8 @@ public class TestHash {
             //int modulus = Integer.parseInt(args[1]);
             //File inFile = new File(args[2]);
             int radix = 128;
-            int modulus = 127;
-            File inFile = new File("src/5lw.dat");
+            int modulus = 97;
+            File inFile = new File("src/wordList");
             Scanner in = new Scanner(inFile);
             String inStr;
             int[] hashValues = new int[modulus];

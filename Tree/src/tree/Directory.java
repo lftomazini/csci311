@@ -2,7 +2,6 @@
 // CSCI 311
 // phone directory program
 // CHANGE THIS PROGRAM ONLY WHERE INDICATED IN THE SWITCH STATEMENT
-package tree;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,7 +9,7 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class Directory {
-
+    // O (n * lg n + n) : n * add/remove + print
     public static void main(String[] args) {
 
         BST<String> directory = new BST<String>();
@@ -18,13 +17,13 @@ public class Directory {
         String name, temp;
         Scanner in;
 
-//        if (args.length != 1) {
-//            System.err.println("Usage:  java Directory fileName");
-//            System.exit(1);
-//        }
+        if (args.length != 1) {
+            System.err.println("Usage:  java Directory fileName");
+            System.exit(1);
+        }
+
         try {
-            in = new Scanner(new BufferedReader(new FileReader(
-                    "src/tree/input.dat.txt")));
+            in = new Scanner(new BufferedReader(new FileReader(args[0])));
             while (in.hasNext()) {
                 temp = in.next();
                 if (temp.length() > 1) {
@@ -42,8 +41,7 @@ public class Directory {
                     }
                     case 'R':
                     case 'r': {
-
-                        // ADD CODE FOR REMOVAL CASE HERE
+                        directory.Remove(name);
                         break;
                     }
                     default:

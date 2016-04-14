@@ -5,6 +5,8 @@
  */
 package lcs;
 
+import java.util.HashSet;
+
 /**
  *
  * @author lftomazini
@@ -16,6 +18,7 @@ public class LCS {
     public int[][] memo;
     public String str1;
     public String str2;
+    public static int i = 0;
 
     public LCS(String str1, String str2) {
         this.memo = new int[str1.length()][str2.length()];
@@ -56,10 +59,38 @@ public class LCS {
         }
     }
 
+    public HashSet<String> backtrackAll(int n, int m) {
+        if (n == this.str1.length() - 1 || m == this.str2.length() - 1) {
+
+            return new HashSet<String>();
+        } else {
+            if (this.str1.charAt(n) == this.str2.charAt(m)) {
+
+                HashSet<String> R = this.backtrackAll(n + 1, m + 1);
+                HashSet<String> new_set = new HashSet<String>();
+
+                for (String Z : R) {
+                    new_set.add(Z + this.str1.charAt(n));
+                }
+                new_set.add("" + this.str1.charAt(n));
+                System.out.println(new_set);
+                return new_set;
+            } else {
+                HashSet<String> R = new HashSet<String>();
+                if (this.memo[n][m + 1] >= this.memo[n + 1][m]) {
+                    R = this.backtrackAll(n, m + 1);
+                } else {
+                    R = this.backtrackAll(n + 1, m);
+                }
+                return R;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "The length of a longest common subsequence of " + str1 + " and " + str2 + " is " + this.length(
-                0, 0) + "\nOne common subsequence is " + this.backtrack(0, 0);
+                0, 0) + "\nOne common subsequence is " + this.backtrackAll(0, 0);
 
     }
 

@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 
+import heap.HeapElt;
 import java.util.ArrayList;
 
 /**
  *
  * @author lftomazini
  */
-class Vertex {
+class Vertex extends HeapElt {
 
     private String key;
     private int index;

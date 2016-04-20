@@ -55,14 +55,10 @@ public class AdjencyList {
 
     private int numberOfTransformations(String str1, String str2) {
         int transformations = 0;
-        try {
-            for (int i = 0; i < str1.length(); i++) {
-                if (str1.charAt(i) != str2.charAt(i)) {
-                    transformations++;
-                }
+        for (int i = 0; i < str1.length(); i++) {
+            if (str1.charAt(i) != str2.charAt(i)) {
+                transformations++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("ERROR: File not found." + e);
         }
         return transformations;
     }

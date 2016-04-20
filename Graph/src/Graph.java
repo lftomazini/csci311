@@ -20,8 +20,6 @@ public class Graph {
             while (in.hasNext()) {
                 adjList.addNode(in.next());
             }
-            System.out.println("built");
-            System.out.println(adjList.adjList.size());
             in.close();
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: File not found." + e);

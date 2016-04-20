@@ -11,8 +11,7 @@ import java.util.ArrayList;
  * @author lftomazini
  */
 public class AdjencyList {
-    //TODO make it private
-    public ArrayList<Vertex> adjList;
+    private ArrayList<Vertex> adjList;
 
     public AdjencyList() {
         this.adjList = new ArrayList<Vertex>();
@@ -54,8 +53,18 @@ public class AdjencyList {
         return this.adjList.get(handle);
     }
 
-    private int numberOfTransformations(String key, String word) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private int numberOfTransformations(String str1, String str2) {
+        int transformations = 0;
+        try {
+            for (int i = 0; i < str1.length(); i++) {
+                if (str1.charAt(i) != str2.charAt(i)) {
+                    transformations++;
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("ERROR: File not found." + e);
+        }
+        return transformations;
     }
 
     void neighboursFromVertex(Vertex vertex) {
@@ -63,10 +72,11 @@ public class AdjencyList {
             int handle = vertex.getEdges().get(i).getDestinationIndex();
             String key = adjList.get(handle).getKey();
             int weight = vertex.getEdges().get(i).getWeight();
-            System.out.println(key + " (" + weight + ")  ");
-            if (i % 6 == 0) {
-                System.out.println("\n");
+            System.out.print(key + " (" + weight + ")  ");
+            if (i % 6 == 5) {
+                System.out.print("\n");
             }
         }
+        System.out.println("\n");
     }
 }

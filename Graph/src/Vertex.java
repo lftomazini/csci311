@@ -16,6 +16,7 @@ class Vertex extends HeapElt {
     private String key;
     private int index;
     private ArrayList<Edge> edges;
+    private int predecessor;
 
     Vertex(String word, int index, ArrayList<Edge> neighbours) {
         this.key = word;
@@ -35,6 +36,10 @@ class Vertex extends HeapElt {
         return edges;
     }
 
+    public int getPredecessor() {
+        return predecessor;
+    }
+
     public void setKey(String key) {
         this.key = key;
     }
@@ -47,8 +52,11 @@ class Vertex extends HeapElt {
         this.edges = edges;
     }
 
+    public void setPredecessor(int predecessor) {
+        this.predecessor = predecessor;
+    }
+
     void addEdge(Edge edge) {
         edges.add(edge);
     }
-
 }

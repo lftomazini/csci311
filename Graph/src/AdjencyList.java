@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import heap.Heap;
 import java.util.ArrayList;
 
 /**
@@ -74,5 +75,90 @@ public class AdjencyList {
             }
         }
         System.out.println("\n");
+    }
+
+    void dijkstrasAlgorithm(int start) {
+        Vertex initial = adjList.get(start);
+
+        //initialize graph
+        Vertex vertex;
+        for (int i = 0; i < adjList.size(); i++) {
+            vertex = adjList.get(i);
+            vertex.setRecord(Integer.MAX_VALUE);
+            vertex.setPredecessor(-1);
+        }
+        initial.setRecord(0);
+
+        //intialize heap
+        Heap heap = new Heap();
+        heap.insert(initial);
+        for (int i = 0; i < adjList.size(); i++) {
+            if (initial.getIndex() != i) {
+                heap.insert(adjList.get(i));
+            }
+        }
+
+        //loop
+        Vertex adjency;
+        while (heap.getHeapsize() != 0) {
+            try {
+                vertex = (Vertex) heap.removeMin();
+                for (int i = 0; i < vertex.getEdges().size(); i++) {
+                    adjency = getVertex(
+                            vertex.getEdges().get(i).getDestinationIndex());
+                    if ((Integer) vertex.getRecord() + vertex.getEdges().get(i).getWeight() < (Integer) adjency.getRecord()) {
+                        adjency.setPredecessor(vertex.getIndex());
+                        adjency.setRecord(
+                                (Integer) vertex.getRecord() + vertex.getEdges().get(
+                                        i).getWeight());
+                        heap.heapifyUp(adjency.getIndex());
+                    }
+                }
+            } catch (Exception ex) {
+                System.err.println("Heap is empty!");
+            }
+        }
+    }
+
+    void bestScoreSequence(int handle1, int handle2) {
+        ArrayList<Integer> reversePath = findMinimumPath(handle1, handle2);
+        System.out.println(
+                "The best score from " + adjList.get(handle1).getKey() + " to " + adjList.get(
+                        handle2).getKey() + " is " + getDistance(handle2) + " points:\n");
+        printSequence(reversePath);
+    }
+
+    private ArrayList<Integer> findMinimumPath(int handle1, int handle2) {
+        dijkstrasAlgorithm(handle1);
+        return findReversePath(adjList.get(handle1), adjList.get(handle2),
+                               new ArrayList<Integer>());
+    }
+
+    private int getDistance(int lastElement) {
+        return (Integer) adjList.get(lastElement).getRecord();
+    }
+
+    private void printSequence(ArrayList<Integer> reversePath) {
+        for (int i = reversePath.size() - 1; i >= 0; i--) {
+            System.out.print(adjList.get(reversePath.get(i)).getKey() + " ");
+            if ((reversePath.size() - i) % 10 == 9) {
+                System.out.print("\n");
+            }
+        }
+        System.out.println("\n");
+    }
+
+    private ArrayList<Integer> findReversePath(Vertex initial, Vertex last,
+                                               ArrayList<Integer> path) {
+        if (initial.equals(last)) {
+            path.add(last.getIndex());
+
+            return path;
+        } else {
+            Vertex next = adjList.get(last.getPredecessor());
+            path.add(last.getIndex());
+
+            return findReversePath(initial, next, path);
+        }
     }
 }

@@ -22,6 +22,8 @@ class Vertex extends HeapElt {
         this.key = word;
         this.index = index;
         this.edges = neighbours;
+        this.predecessor = -1;
+        this.record = -1;
     }
 
     public String getKey() {

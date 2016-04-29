@@ -60,7 +60,7 @@ public class TestGraph {
                 System.out.println("Key " + word2 + " not found");
                 continue;
             }
-            printBestScore(handle1, handle2);
+            adjList.bestScoreSequence(handle1, handle2);
             repeat = repeat();
         }
     }
@@ -73,11 +73,6 @@ public class TestGraph {
             System.out.println("The neighbours from " + s + " are:\n");
             adjList.neighboursFromVertex(adjList.getVertex(handle));
         }
-    }
-
-    private static void printBestScore(int handle1, int handle2) {
-        //System.out.println("The best score from " + " to " + " is " + " points");
-        adjList.bestScoreSequence(handle1, handle2);
     }
 
     private static boolean repeat() {

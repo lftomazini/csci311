@@ -67,7 +67,7 @@ public class AdjencyList {
     void neighboursFromVertex(Vertex vertex) {
         for (int i = 0; i < vertex.getEdges().size(); i++) {
             int handle = vertex.getEdges().get(i).getDestinationIndex();
-            String key = adjList.get(handle).getKey();
+            String key = this.adjList.get(handle).getKey();
             int weight = vertex.getEdges().get(i).getWeight();
             System.out.print(key + " (" + weight + ")  ");
             if (i % 6 == 5) {
@@ -78,12 +78,12 @@ public class AdjencyList {
     }
 
     void dijkstrasAlgorithm(int start) {
-        Vertex initial = adjList.get(start);
+        Vertex initial = this.adjList.get(start);
 
         //initialize graph
         Vertex vertex;
-        for (int i = 0; i < adjList.size(); i++) {
-            vertex = adjList.get(i);
+        for (int i = 0; i < this.adjList.size(); i++) {
+            vertex = this.adjList.get(i);
             vertex.setRecord(Integer.MAX_VALUE);
             vertex.setPredecessor(-1);
         }
@@ -92,9 +92,9 @@ public class AdjencyList {
         //intialize heap
         Heap heap = new Heap();
         heap.insert(initial);
-        for (int i = 0; i < adjList.size(); i++) {
+        for (int i = 0; i < this.adjList.size(); i++) {
             if (initial.getIndex() != i) {
-                heap.insert(adjList.get(i));
+                heap.insert(this.adjList.get(i));
             }
         }
 
@@ -103,15 +103,13 @@ public class AdjencyList {
         while (heap.getHeapsize() != 0) {
             try {
                 vertex = (Vertex) heap.removeMin();
-                for (int i = 0; i < vertex.getEdges().size(); i++) {
-                    adjency = getVertex(
-                            vertex.getEdges().get(i).getDestinationIndex());
-                    if ((Integer) vertex.getRecord() + vertex.getEdges().get(i).getWeight() < (Integer) adjency.getRecord()) {
+                for (Edge edge : vertex.getEdges()) {
+                    adjency = getVertex(edge.getDestinationIndex());
+                    if ((Integer) vertex.getRecord() + edge.getWeight() < (Integer) adjency.getRecord()) {
                         adjency.setPredecessor(vertex.getIndex());
                         adjency.setRecord(
-                                (Integer) vertex.getRecord() + vertex.getEdges().get(
-                                        i).getWeight());
-                        heap.heapifyUp(adjency.getIndex());
+                                (Integer) vertex.getRecord() + edge.getWeight());
+                        heap.heapifyUp(adjency.getHandle());
                     }
                 }
             } catch (Exception ex) {
@@ -123,24 +121,25 @@ public class AdjencyList {
     void bestScoreSequence(int handle1, int handle2) {
         ArrayList<Integer> reversePath = findMinimumPath(handle1, handle2);
         System.out.println(
-                "The best score from " + adjList.get(handle1).getKey() + " to " + adjList.get(
+                "The best score from " + this.adjList.get(handle1).getKey() + " to " + adjList.get(
                         handle2).getKey() + " is " + getDistance(handle2) + " points:\n");
         printSequence(reversePath);
     }
 
     private ArrayList<Integer> findMinimumPath(int handle1, int handle2) {
         dijkstrasAlgorithm(handle1);
-        return findReversePath(adjList.get(handle1), adjList.get(handle2),
+        return findReversePath(this.adjList.get(handle1), this.adjList.get(
+                               handle2),
                                new ArrayList<Integer>());
     }
 
     private int getDistance(int lastElement) {
-        return (Integer) adjList.get(lastElement).getRecord();
+        return (Integer) this.adjList.get(lastElement).getRecord();
     }
 
     private void printSequence(ArrayList<Integer> reversePath) {
         for (int i = reversePath.size() - 1; i >= 0; i--) {
-            System.out.print(adjList.get(reversePath.get(i)).getKey() + " ");
+            System.out.print(this.adjList.get(reversePath.get(i)).getKey() + " ");
             if ((reversePath.size() - i) % 10 == 9) {
                 System.out.print("\n");
             }
@@ -155,7 +154,7 @@ public class AdjencyList {
 
             return path;
         } else {
-            Vertex next = adjList.get(last.getPredecessor());
+            Vertex next = this.adjList.get(last.getPredecessor());
             path.add(last.getIndex());
 
             return findReversePath(initial, next, path);
